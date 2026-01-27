@@ -10,7 +10,7 @@ for sample in data:
     
     # TODO: Replace with your model inference
     # model_output = your_model(video_path, question)
-    model_output = "Yes"  # dummy output, should be "Yes"/"No" or "A"/"B"
+    model_output = "Yes"  
     
     predictions.append({
         "index": sample["index"],
@@ -22,5 +22,6 @@ for sample in data:
 json.dump(predictions, open("results/predictions.json", "w"), indent=2)
 
 answers = build_answers(predictions, data)
+#llm_judge.py: If using a thinking model makes the output too complex, it's better to use an LLM for matching before scoring.
 scores = get_scores(answers)
 print(scores)

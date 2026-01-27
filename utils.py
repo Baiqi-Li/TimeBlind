@@ -187,32 +187,62 @@ def get_scores(scores):
 
 
 def build_answers(predictions, dataset):
-    """Build answers dict from predictions and dataset."""
+    """Build answers dict from predictions and dataset.
+    
+    Correctly handles shuffled predictions and partial data.
+    """
     answers: Dict[str, Dict[str, float]] = {}
-    num_samples = len(predictions) // 4
+    
+    # Group predictions by sample_id (index // 4)
+    # role: 0=q0_i0, 1=q0_i1, 2=q1_i0, 3=q1_i1
+    sample_groups: Dict[int, Dict[int, dict]] = {}
+    for pred in predictions:
+        idx = pred.get('index')
+        if idx is None:
+            continue
+        sample_id = idx // 4
+        role = idx % 4
+        
+        if sample_id not in sample_groups:
+            sample_groups[sample_id] = {}
+        sample_groups[sample_id][role] = pred
+    
     max_idx = len(dataset) - 1
     
-    for i in range(num_samples):
+    for sample_id, group in sample_groups.items():
         try:
-            preds = [predictions[i * 4 + j] for j in range(4)]
-            indices = [p.get('index') for p in preds]
+            # Check if we have all 4 roles
+            if len(group) != 4 or not all(r in group for r in [0, 1, 2, 3]):
+                raise ValueError(f"Sample {sample_id} is incomplete")
             
-            if not all(0 <= idx <= max_idx for idx in indices):
+            # Get predictions by role (not by array position)
+            pred_q0_i0 = group[0]
+            pred_q0_i1 = group[1]
+            pred_q1_i0 = group[2]
+            pred_q1_i1 = group[3]
+            
+            idx_0 = pred_q0_i0.get('index')
+            idx_1 = pred_q0_i1.get('index')
+            idx_2 = pred_q1_i0.get('index')
+            idx_3 = pred_q1_i1.get('index')
+            
+            if not all(0 <= idx <= max_idx for idx in [idx_0, idx_1, idx_2, idx_3]):
                 raise IndexError("Index out of bounds")
             
-            q0_i0 = extract_answer(preds[0].get('model_output'), dataset[indices[0]]["type"])
-            q0_i1 = extract_answer(preds[1].get('model_output'), dataset[indices[1]]["type"])
-            q1_i0 = extract_answer(preds[2].get('model_output'), dataset[indices[2]]["type"])
-            q1_i1 = extract_answer(preds[3].get('model_output'), dataset[indices[3]]["type"])
+            q0_i0 = extract_answer(pred_q0_i0.get('model_output'), dataset[idx_0]["type"])
+            q0_i1 = extract_answer(pred_q0_i1.get('model_output'), dataset[idx_1]["type"])
+            q1_i0 = extract_answer(pred_q1_i0.get('model_output'), dataset[idx_2]["type"])
+            q1_i1 = extract_answer(pred_q1_i1.get('model_output'), dataset[idx_3]["type"])
         except Exception:
             q0_i0 = q0_i1 = q1_i0 = q1_i1 = -1
 
-        answers[str(i)] = {
+        answers[str(sample_id)] = {
             "q0_i0": float(q0_i0),
             "q0_i1": float(q0_i1),
             "q1_i0": float(q1_i0),
             "q1_i1": float(q1_i1),
         }
+    
     return answers
 
 
@@ -234,7 +264,7 @@ def main() -> None:
         
         answers = build_answers(predictions, dataset)
         scores = get_scores(answers)
-        result = {**scores, "num_samples": len(predictions) // 4}
+        result = {**scores, "num_instances": len(answers)}
         
         file_dir = os.path.dirname(os.path.abspath(args.results_dir))
         file_name = os.path.splitext(os.path.basename(args.results_dir))[0]

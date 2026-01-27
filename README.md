@@ -1,22 +1,30 @@
-# TimeBlind
+# TimeBlind Benchmark
 
-A video VQA benchmark for evaluating temporal understanding in vision-language models.
+TimeBlind: A video VQA benchmark for evaluating temporal understanding in vision-language models.
+
+<div align="center">
+| [🏠**Home Page**(coming soon)]() | [&#129303;**HuggingFace**](https://huggingface.co/datasets/BaiqiL/TimeBlind) | [**📖Paper**(coming soon)]() | [🖥️ **Code**](https://github.com/Baiqi-Li/TimeBlind) |
+</div>
 
 ## Setup
 
 ```bash
-git clone https://huggingface.co/datasets/BaiqiL/TimeBlind
+git clone https://github.com/Baiqi-Li/TimeBlind.git
 cd TimeBlind
+git clone https://huggingface.co/datasets/BaiqiL/TimeBlind
 ```
 
 ## Data Format
 
 Each sample in `TimeBlind/data.jsonl` contains:
-- `video_path`: path to video file (e.g., `videos/vid_00000_0.mp4`)
-- `question`: the question to answer
+- `video_path`: path to video file (e.g., `TimeBlind/videos/vid_00000_0.mp4`)
+- `question`: the question
+- `answer`: the grounding answer
 - `type`: `"yes_no"` or `"multiple_choice"`
 
 ## Evaluation
+
+see evaluate.py for more details!
 
 ```python
 import json
