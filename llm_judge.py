@@ -3,7 +3,7 @@
 Extract answers from model_output using GPT, and overwrite model_output with the raw extracted string.
 
 Usage:
-    python extract_answers.py \
+    python llm_judge.py \
         --result_file results/glm_v_timeblind.json \
         --benchmark_file TimeBlind/data.jsonl \
         --output_file results/glm_v_timeblind.json
@@ -105,8 +105,8 @@ def extract_answer_with_gpt(
             last_text = (response.choices[0].message.content or "").strip()
             if last_text:
                 return last_text
-        except Exception:
-            pass
+        except Exception as e:
+            print(f"[Warning] GPT extraction attempt {attempt + 1}/{max_retries} failed: {e}")
 
         time.sleep(min(8.0, 0.5 * (2**attempt)))
 
@@ -176,8 +176,8 @@ def main():
     parser.add_argument(
         "--model",
         type=str,
-        default="gpt-4o-mini",
-        help="GPT model to use (default: gpt-4o-mini)",
+        default="gpt-5",
+        help="GPT model to use (default: gpt-5)",
     )
     parser.add_argument(
         "--max_workers",

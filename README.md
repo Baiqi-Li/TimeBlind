@@ -57,9 +57,10 @@ print(scores)  # {'Q_Acc': ..., 'V_Acc': ..., 'Acc': ..., 'I_Acc': ...}
 ```
 
 ## Metrics
+I-Acc serves as our primary metric.
 
 - **Acc**: Binary VQA accuracy
 - **Q_Acc**: Question accuracy
 - **V_Acc**: Video accuracy
-- **I_Acc**: Instance accuracy
+- **I_Acc**: **Instance accuracy**
 

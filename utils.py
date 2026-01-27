@@ -50,10 +50,6 @@ def extract_answer(output_string: str, task_type: str = "yes_no") -> int:
                 if m:
                     return 1 if m.group(1).upper() == "A" else 0
             else:
-                anchor = re.search(r"(?i)(?:final(?: answer)?|answer|prediction)\s*[:：]\s*([AB])\b", text)
-                if anchor:
-                    return 1 if anchor.group(1).upper() == "A" else 0
-                
                 answer_keyword = re.search(r"(?i)\b(final(?: answer)?|answer|prediction)\b", text)
                 if answer_keyword:
                     before = text[:answer_keyword.start()]
