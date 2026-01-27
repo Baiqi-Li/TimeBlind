@@ -2,9 +2,11 @@
 
 TimeBlind: A video VQA benchmark for evaluating temporal understanding in vision-language models.
 
-<div align="center">
-| [🏠**Home Page**(coming soon)]() | [&#129303;**HuggingFace**](https://huggingface.co/datasets/BaiqiL/TimeBlind) | [**📖Paper**(coming soon)]() | [🖥️ **Code**](https://github.com/Baiqi-Li/TimeBlind) |
-</div>
+<p align="center">
+
+[🏠**Home Page**(coming soon)]() | [🤗**HuggingFace**](https://huggingface.co/datasets/BaiqiL/TimeBlind) | [**📖Paper**(coming soon)]() | [🖥️ **Code**](https://github.com/Baiqi-Li/TimeBlind)
+
+</p>
 
 ## Setup
 
