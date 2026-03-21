@@ -3,14 +3,14 @@
 </div>
 
 <div align="center"> Baiqi Li<sup>1</sup>, Kangyi Zhao<sup>2</sup>, Ce Zhang<sup>1</sup>, Chancharik Mitra<sup>3</sup>, Jean de Dieu Nyandwi<sup>3</sup>, Gedas Bertasius<sup>1</sup> </div> <div align="center"> <sup>1</sup>University of North Carolina at Chapel Hill&nbsp;&nbsp; <sup>2</sup>University of Pittsburgh&nbsp;&nbsp; <sup>3</sup>Carnegie Mellon University </div>
-
+<br><br>
 <div align="center">
   <b>Corresponding author:</b>
   <a href="mailto:baiqili@cs.unc.edu">baiqili@cs.unc.edu</a>
   /
   <a href="mailto:libaiqi123@gmail.com">libaiqi123@gmail.com</a>
 </div>
-
+<br><br>
 <div align="center">
 
 [🏠**Home Page**](https://baiqi-li.github.io/timeblind_project/) | [🤗**HuggingFace**](https://huggingface.co/datasets/BaiqiL/TimeBlind) | [**📖Paper**(coming soon)]() | [🖥️ **Code**](https://github.com/Baiqi-Li/TimeBlind)
