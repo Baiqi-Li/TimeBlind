@@ -13,15 +13,11 @@
   <sup>1</sup>University of North Carolina at Chapel Hill&nbsp;&nbsp;&nbsp;
   <sup>2</sup>University of Pittsburgh&nbsp;&nbsp;&nbsp;
   <sup>3</sup>Carnegie Mellon University
-  <br><br>
-  ✉️ Corresponding author:
-  <a href="mailto:baiqili@cs.unc.edu">baiqili@cs.unc.edu</a> ·
-  <a href="mailto:libaiqi123@gmail.com">libaiqi123@gmail.com</a>
 </div>
 
 <div align="center">
 
-[🏠**Home Page**](https://baiqi-li.github.io/timeblind_project/) | [🤗**HuggingFace**](https://huggingface.co/datasets/BaiqiL/TimeBlind) | [**📖Paper**(coming soon)]() | [🖥️ **Code**](https://github.com/Baiqi-Li/TimeBlind)
+[🏠**Home Page**](https://baiqi-li.github.io/timeblind_project/) | [🤗**HuggingFace**](https://huggingface.co/datasets/BaiqiL/TimeBlind) | [📖**Paper**](https://arxiv.org/pdf/2602.00288) | [🖥️ **Code**](https://github.com/Baiqi-Li/TimeBlind)
 
 </div>
 
@@ -101,3 +97,7 @@ Each tag maps to a list of dataset indices. Use `get_tag_scores` (see Evaluation
 
 ## Limitation:
 While TimeBlind offers a rigorous diagnostic for compositional spatio-temporal understanding, it has several limitations. Some sub-categories contain few samples, and some Event Attribute sub-categories (e.g., Force, Magnitude) involve inherently subjective judgments. Despite substantial inter-annotator agreement (κ = 0.84 for Event Attributes), some ambiguity remains intrinsic to these concepts. We view these as natural extensions of TimeBlind rather than challenges to its conclusions.
+
+## Contact
+
+✉️ Corresponding author: [baiqili@cs.unc.edu](mailto:baiqili@cs.unc.edu) · [libaiqi123@gmail.com](mailto:libaiqi123@gmail.com)
