@@ -1,5 +1,5 @@
 import json
-from utils import _load_json_list, build_answers, get_scores, add_question_suffix
+from utils import _load_json_list, build_answers, get_scores, get_tag_scores, add_question_suffix
 
 data = _load_json_list("TimeBlind/data.jsonl")
 predictions = []
@@ -22,6 +22,10 @@ for sample in data:
 json.dump(predictions, open("results/predictions.json", "w"), indent=2)
 
 answers = build_answers(predictions, data)
-#llm_judge.py: If using a thinking model makes the output too complex, it's better to use an LLM for matching before scoring.
+# llm_judge.py: for long outputs (e.g., thinking models), use LLM-as-a-judge to extract answers before scoring.
 scores = get_scores(answers)
 print(scores)
+
+# Per-tag scores: tags.json maps each tag (11 fine-grained + 3 coarse-grained) to dataset indices.
+tag_scores = get_tag_scores(predictions, data, "tags.json")
+print(json.dumps(tag_scores, indent=2))

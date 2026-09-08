@@ -242,6 +242,42 @@ def build_answers(predictions, dataset):
     return answers
 
 
+def get_tag_scores(predictions, dataset, tag_file):
+    """Compute per-tag scores.
+
+    tag_file (e.g., tags.json) maps each tag name to a list of dataset
+    indices; every 4 consecutive sorted indices form one instance
+    (2 videos x 2 questions). Instances without any prediction are
+    skipped; partially missing predictions are treated as invalid (-1).
+    Returns: {tag: {Q_Acc, V_Acc, Acc, I_Acc, num_instances}}
+    """
+    tag_2_index = read_json_file(tag_file)
+    index_to_pred = {p.get("index"): p for p in predictions if p.get("index") is not None}
+    max_idx = len(dataset) - 1
+
+    tag_scores: Dict[str, Any] = {}
+    for tag, indices in tag_2_index.items():
+        answers: Dict[str, Dict[str, float]] = {}
+        indices = sorted(indices)
+        for s in range(0, len(indices), 4):
+            chunk = indices[s:s + 4]
+            if len(chunk) < 4 or not all(0 <= i <= max_idx for i in chunk):
+                continue
+            preds = [index_to_pred.get(i) for i in chunk]
+            if all(p is None for p in preds):
+                continue  # instance was not evaluated at all
+            vals = [
+                float(extract_answer(p.get("model_output") if p else None, dataset[i]["type"]))
+                for i, p in zip(chunk, preds)
+            ]
+            answers[str(chunk[0])] = {
+                "q0_i0": vals[0], "q0_i1": vals[1], "q1_i0": vals[2], "q1_i1": vals[3],
+            }
+        if answers:
+            tag_scores[tag] = {**get_scores(answers), "num_instances": len(answers)}
+    return tag_scores
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Calculate scores for TimeBlind")
     base_dir = os.path.dirname(os.path.abspath(__file__))
